@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "sstream": "cpp",
+        "algorithm": "cpp",
+        "unordered_set": "cpp"
+    }
+}
