@@ -11,14 +11,14 @@ using namespace std;
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int max_l = 0;
-        int p_r = 1;
+        int max_l = 1;
         unordered_set<char> vet;
         // 字符串长度为0或者1的情况?
         // 字符串为空
+        if (s.size()==0) return 0;
         if (s.size()==1) return 1;
 
-        for(int p_l=0;p_l<s.size();p_l++){
+        for(int p_l=0,p_r=1;p_l<s.size();p_l++,p_r=p_l+1){
             // 开始索引更新后，删除哈希表中开始元素前面的元素
             if (p_l!=0) vet.erase(s[p_l-1]);   
             // 插入左指针的值
