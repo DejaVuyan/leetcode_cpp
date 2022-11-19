@@ -3,7 +3,6 @@
 #include <algorithm>
 #include<unordered_set>
 
-using std::vector;
 using namespace std;
 
 // 给定一个字符串 s ，请你找出其中不含有重复字符的最长子串的长度。
@@ -14,8 +13,7 @@ public:
         int max_l = 0;
         int tmp_l = 0;  //记录每一次循环不重复的值
         unordered_set<char> vet;
-        // 字符串长度为0或者1的情况?
-        // 字符串为空
+        // 边界条件，字符串长度为0或者1的情况
         if (s.size()==0) return 0;
         if (s.size()==1) return 1;
 
