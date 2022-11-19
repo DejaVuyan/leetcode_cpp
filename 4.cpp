@@ -7,6 +7,8 @@ using namespace std;
 
 // 寻找两个正序数组的中位数
 // 用两个指针，排序，但是不移动元素，遍历到两数组之和的一半，算出中位数
+// 寻找两个正序数组的中位数
+// 用两个指针，排序，但是不移动元素，遍历到两数组之和的一半，算出中位数
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
@@ -30,9 +32,8 @@ public:
         }
 
         // 如果是偶数，如6，则为索引在2，3处的相加/2，也就是/2和/2减一
-        // 但是偶数的话要记录/2和/2减一两个元素，因为你仅仅靠索引不知道他是nums1还是2的
-        // 这里得设置长度为2的数组了吧
         if (total_length%2==0){
+            int med_number2=0;
             while ((p_1+p_2)<(total_length/2)){
                 // 将数比较小的指针加一
                 if (nums1[p_1]<=nums2[p_2]) {
@@ -44,8 +45,17 @@ public:
                     p_2++;
                 }
             }
+            // 将/2位置索引的数字统计出来
+            // 这里p_1可能超出界限，超出界限会随机出现一个奇怪数字
+            if (p_1<nums1.size()&&p_2>=nums2.size()){
+                p_2 = num2.size();
+                if (nums1[p_1]<=nums2[p_2]) med_number2=nums1[p_1];  
+                else med_number2=nums2[p_2];
+            }
+            // 加入许多判断
+            
+            return (med_number+med_number2)/2;
         }
-        return ;
     }
 };
 
