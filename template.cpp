@@ -4,7 +4,10 @@
 #include<unordered_set>
 
 using namespace std;
+class Solution {
+public:
 
+};
 
 
 
@@ -13,7 +16,7 @@ int main(){
     string s="pwwkew";
     // 初始化类
     Solution sol;
-    int ret = sol.lengthOfLongestSubstring(s);
+    int ret = sol;
     cout << "the ret is : " << ret << endl;
     return 0;
 }
