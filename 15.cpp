@@ -20,15 +20,14 @@ public:
             // }
             // // 解决方法，当a>0的时候才判断是不是等于a-1
             if (a>0 && nums[a]==nums[a-1]) continue;
+            int c=nums.size()-1;
             for (int b=a+1;b<nums.size();b++){
                 if (b>a+1 && nums[b]==nums[b-1]) continue;   // 保证b不同
-                for (int c=nums.size()-1;c>b;c--){
-                    if ((c<nums.size()-1 && nums[c]==nums[c+1]) || (nums[b]+nums[c])>-nums[a] ) continue;
-                    if (nums[a]+nums[b]+nums[c]==0){
-                        ret.push_back({nums[a],nums[b],nums[c]});  // 推入数组
-                        break;
-                    }
+                while (nums[b] < nums[c] && nums[b] + nums[c] >-nums[a]) {
+                    --c;
                 }
+                if (b==c) break;
+                if (nums[a]+nums[b]+nums[c]==0) ret.push_back({nums[a],nums[b],nums[c]}); 
             }
         }
         return ret;
