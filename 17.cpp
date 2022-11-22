@@ -8,9 +8,11 @@ class Solution {
 public:
     vector<string> letterCombinations(string digits) {
         vector<string> combinations;  // 要返回的全部组合
+        // 边界条件，如果给的数字为空则返回空
         if (digits.empty()) {
             return combinations;
         }
+        // 哈希表，分别声明key和v的类型，用大括号定义每一对组合
         unordered_map<char, string> phoneMap{
             {'2', "abc"},
             {'3', "def"},
@@ -26,18 +28,30 @@ public:
         return combinations;
     }
 
-    void backtrack(vector<string>& combinations, const unordered_map<char, string>& phoneMap, const string& digits, int index, string& combination) {
-        if (index == digits.length()) {
-            combinations.push_back(combination);   // 到了最后一个数字，就将combination推入组合
-        } else {
-            char digit = digits[index];  // 第一次进入index=0,读取第一个数字
-            const string& letters = phoneMap.at(digit);  // 读取数字对应的字符串
-            for (const char& letter: letters) {
-                combination.push_back(letter);  // 将当前的letter放在combination的后面
-                backtrack(combinations, phoneMap, digits, index + 1, combination);  // 再调用，此时digits为2，combination已经放入了第一个字母
-                combination.pop_back();  // pop(即清空)当前的combination,为下次做准备
+// string &combination中说明这个形参是以前实参的引用，他们共用一块内存，形参改变了，跳出函数后实参的值也变了
+// string combination，形参和实参是两块空间，两个独立变量
+
+    void backtrack(vector<string>& combinations,unordered_map<char, string>& phoneMap,string& digits, int index,string& combination){
+        if (index==digits.length()){    
+            combinations.push_back(combination);
+            // combination.pop_back();  // 不能写在这里，会导致ade,adf多留了个a
+        }
+        else{
+            // 每一层的数字,每一个index表示取第几个数字
+            // int digit=digits[index];
+            char digit=digits[index]; 
+            string chars=phoneMap.at(digit);    // 数字对应的字符串
+            for (int i=0;i<chars.size();i++){
+                combination.push_back(chars[i]);  // 把字符串中第i个推入combination
+                // 探索下一层的组合
+                backtrack(combinations, phoneMap, digits, index+1, combination);
+                combination.pop_back();  // 清空
+                // 到这里就是触发了回退条件，一种组合已经放到combinations里了
+                // 因为combination是共用的，index=0,1,2,...都要用，所以清空他
+                
             }
         }
+
     }
 };
 
