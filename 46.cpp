@@ -6,35 +6,44 @@ using namespace std;
 
 class Solution {
 private:
-    vector<vector<int>> backtrack(vector<int> nums,vector<int>& combanation){
-        vector<vector<int>> combanations;
-        for(int i=0;i<nums.size();i++){   
-            if (nums.size()>0){
-                // 如果还没有遍历到最后一层
-                combanation.push_back(nums[i]);
-                // 调用下一层的遍历函数
-                auto iter=nums.erase(nums.begin()+i);  // erase函数的返回值是被删除元素的后面指针，一个iter
-                // 是在原来的数组的基础上删除的
-                backtrack(nums,combanation);
-            }
-            // i=0 遍历完了，nums数组空了,说明一种情况统计完了
-            else{
-                // 将combanation推入combanations
-                combanations.push_back(combanation);
-                // 清空combanation
-            }
-        }
-        return combanations;
-    }
+    int numsSize;
+    vector<int> nums;
+    vector<int> path;
+    vector<vector<int>> restVecVec;
 
 public:
+    void dfs(const int deepth, vector<bool> used)
+    {
+        // 定义一个used去表示每个数字是否用过
+        if (numsSize == deepth) {
+            restVecVec.emplace_back(path);
+            return;
+        }
+
+        // 
+        for (int i = 0; i < numsSize; i++) {
+            if ( used[i] ) {
+                continue;   // 每一层的循环都从0开始只是跳过用过的
+            }
+
+            path.emplace_back(nums[i]);   // 跟Push_back一个功能
+            used[i] = true;
+            dfs(deepth + 1, used);
+            used[i] = false; // 在这里表明退出了下一层，所以回退状态，把用过的记录抹掉
+            path.pop_back();  // 把path中存的数弹出来，不然会重复
+        }
+
+        return;
+    }
+
     vector<vector<int>> permute(vector<int>& nums) {
-        // 处理些特殊情况，或者剪枝
-        // 但是此题没有什么特殊情况
-        vector<vector<int>> ret;
-        vector<int> combanation;
-        ret = backtrack(nums,combanation);
-        return ret;
+        numsSize = nums.size();
+        this->nums = nums;
+        vector<bool> used(numsSize, false);  // 创建一个全为0的数组
+
+        dfs(0, used);
+
+        return restVecVec;
     }
 };
 
