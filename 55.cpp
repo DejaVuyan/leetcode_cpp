@@ -8,26 +8,17 @@ class Solution {
 public:
     bool canJump(vector<int>& nums) {
         int l=nums.size();   // 需要走的步数
-        int max_step=0;   // 当前最大的步数
-        // 遍历找目标索引的步数范围内最大的进行跳转
-        int begin_index=0;
-        // int begin_step=nums[0];
-        while (1)
+        int max_step=nums[0];   // 当前最大的步数
+        for (int i = 0; i < nums.size(); i++)
         {
-            // 遍历range
-            for (int i=begin_index;i<begin_index+nums[begin_index];i++){
-                max_step=max(max_step,nums[i]);   // 找出最大的步数,记录索引
-                // 不好记录索引
-                // 判断是否满足条件
-                if((begin_index+max_step)>l) return true;
-            }
-            // 更新起点,跳过去
-            begin_index=max_step+max_index;
-            max_step=0;
-            // 当跳不动了的时候还没到达终点就返回true
-            // 不太好判断是否满足退出条件
-        }
-        
+            // 判断是否可达
+            if (i>max_step) return false;
+            // 更新最大距离
+            max_step=max(max_step,i+nums[i]);
+            // 判断是否已经可以到达底部位置
+            if (max_step>=nums.size()-1) return true;
+        }   
+        return false;
     }
 };
 
